@@ -27,4 +27,15 @@ const buf6 = Buffer.from('test','latin1')
 console.log(buf6.toString('hex'),'buf6')
 
 // buf.write(string[, offset[, length]][, encoding])  buffer写入缓冲区
+const buf7 = Buffer.alloc(256);
+var len = buf7.write('www.baidu.com');
+console.log('写入字节：'+ len);
 
+const buf8 = Buffer.alloc(26);
+for(var i = 0;i<26;i++){
+  buf8[i] = i+97
+}
+console.log(buf8.toString('ascii'))
+console.log(buf8.toString('ascii',0,5))
+console.log(buf8.toString('utf8',0,8))
+console.log(buf8.toString(undefined,0,5))
