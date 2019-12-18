@@ -68,6 +68,28 @@ function sqlAddInfo(parmas,res){
   })
 }
 
+function deleteTable(ids,res){
+  var sql = `DELETE FROM website WHERE Id in (${ids.join(',')})`;
+  connection.query(sql,function(err,result){
+    if(err){
+      console.log('[DELETE ERROR] - ' ,err.message);
+      res.send({
+        code:000,
+        message:'error'
+      });
+      return
+    }
+    console.log('--------------------------DELETE----------------------------');
+    //console.log('INSERT ID:',result.insertId);        
+    console.log('DELETE ID:',result);        
+    console.log('-----------------------------------------------------------------\n\n');
+    res.send({
+      code:200,
+      message:'success'
+    });
+  })
+}
+
 app.get('/get', function (req, res) {
   console.log(req.url); // 打印请求数据
   var parseObj = url.parse(req.url, true); // 对url进行解析 第二个参数为true是会把query属性转为对象
@@ -82,15 +104,28 @@ app.use(bodyParser.json())// 用于解析json 会自动选择最为适合的解�
 app.post('/addTable',function (req,res) {
   var parmas = [];
   if(req.body.name&&req.body.name!=''){
-    parmas[0] = req.name?req.name:'';
-    parmas[1] = req.url?req.url:'';
-    parmas[2] = req.alexa?req.alexa ==''?0:Number(req.alexa):0;
-    parmas[3] = req.country?req.country:'';
+    parmas[0] = req.body.name?req.body.name:'';
+    parmas[1] = req.body.url?req.body.url:'';
+    parmas[2] = req.body.alexa?req.body.alexa ==''?0:Number(req.body.alexa):0;
+    parmas[3] = req.body.country?req.body.country:'';
+    console.log(parmas,'parmas')
     sqlAddInfo(parmas,res);
   }else{
     res.json({
       code:200,
       message:'姓名不能为空'
+    })
+  }
+})
+
+app.post('/removeTable',function(req,res){
+  var ids = [];
+  if(Array.isArray(req.body.ids) && req.body.ids.length>0){
+    deleteTable(ids,res);
+  }else{
+    res.send({
+      code:000,
+      message:'id不能为空'
     })
   }
 })
