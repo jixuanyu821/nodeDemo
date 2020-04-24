@@ -14,7 +14,7 @@
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": " https://github.com/jixuanyu821/nodeDemo.git"
+        "url": "https://github.com/jixuanyu821/nodeDemo.git"
     },
     "dependencies": {
         "koa": "2.0.0",
